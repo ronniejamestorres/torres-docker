@@ -5,7 +5,7 @@ services:
   server:
     build:
       context: .
-    container_name: template-webserver
+    container_name: beeater-webserver
     ports:
       - 80:80
     restart: always
@@ -14,25 +14,25 @@ services:
     env_file:
       - ./docker.env
     networks:
-      - template
+      - beeater
 
   ## Mariadb service
   database:
     image: mariadb:10.4.2
-    container_name: template-database
+    container_name: beeater-database
     restart: always
     volumes:
       - ./database:/docker-entrypoint-initdb.d/
-      - template_data:/var/lib/mysql
+      - beeater_data:/var/lib/mysql
     env_file:
       - ./docker.env
     networks:
-      - template
+      - beeater
 
   ## PhpMyAdmin
   myadmin:
     image: phpmyadmin/phpmyadmin:4.8.1
-    container_name: template-phpmyadmin
+    container_name: beeater-phpmyadmin
     ports:
       - 8081:80
     restart: always
@@ -41,10 +41,10 @@ services:
     depends_on:
       - database
     networks:
-      - template
+      - beeater
 
 networks:
-  template:
+  beeater:
 
 volumes:
-  template_data:
+  beeater_data:
